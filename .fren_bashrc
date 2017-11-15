@@ -1,5 +1,10 @@
+
 # If not running interactively, don't do anything
 [[ "$-" != *i* ]] && return
+
+export EDITOR=vi
+
+export PATH=~/local/bin:$PATH
 
 # Make bash append rather than overwrite the history on disk
 shopt -s histappend
@@ -40,19 +45,19 @@ function bk_func() {
 a bk='bk_func'
 
 function f_func () {
-    find . -name "*$1*"
+    [ -z "$1" ] || find . -name "*$1*"
 }
 a f=f_func
 
 function g_func () {
-    find . -type f -print0 | xargs -0 grep "$1"
+    [ -z "$1" ] || find . -type f -print0 | xargs -0 grep "$1"
 }
 a g=g_func
 
 a r='fc -e -'
 a c='mvn -DskipTests clean install'
 
-#the following should go to a separate file...
+#the following should go to a separate file... HaMOn_development
 
 #a t='mvn -fae clean install -DhlspOracleUser=NHOFFMANN_ADM -DhlspOraclePassword=NHOFFMANN_ADM -DhlspOracleUrl=jdbc:oracle:thin:@//dbsrv02ora11g.god.de:1521/hlspdev -DembeddedTomeePort=8182'
 #a t='mvn -fae clean install -DhlspOracleUser=FENDRISS_ADM -DhlspOraclePassword=FENDRISS_ADM -DhlspOracleUrl=jdbc:oracle:thin:@//dbsrv02ora11g.god.de:1521/hlspdev -DembeddedTomeePort=8182'
@@ -60,3 +65,5 @@ a c='mvn -DskipTests clean install'
 #a t='mvn -fae clean install -Dde.volkswagen.hlsp.ums.testuser=EEXNachname -DhlspOracleUser=FENDRISS_ADM -DhlspOraclePassword=FENDRISS_ADM -DhlspOracleUrl=jdbc:oracle:thin:@dbsrv06ora12c.testnet.god.de:1521:dbsrv06 -DembeddedTomeePort=8182'
 a t='mvn -fae clean install -DhlspOracleUser=FENDRISS_ADM -DhlspOraclePassword=FENDRISS_ADM -DhlspOracleUrl=jdbc:oracle:thin:@dbsrv06ora12c.testnet.god.de:1521:dbsrv06 -DembeddedTomeePort=8183'
 a tt='mvn -pl Entwicklung/Implementierung/hlsp/hlsp-integration-test clean install -DhlspOracleUser=FENDRISS_ADM -DhlspOraclePassword=FENDRISS_ADM -DhlspOracleUrl=jdbc:oracle:thin:@dbsrv06ora12c.testnet.god.de:1521:dbsrv06 -DembeddedTomeePort=8184'
+a ttgui='mvn -pl Entwicklung/Implementierung/hlsp/hlsp-gui-test clean install -DhlspOracleUser=FENDRISS_ADM -DhlspOraclePassword=FENDRISS_ADM -DhlspOracleUrl=jdbc:oracle:thin:@dbsrv06ora12c.testnet.god.de:1521:dbsrv06 -DembeddedTomeePort=8185'
+a ttgecko='mvn -pl Entwicklung/Implementierung/hlsp/hlsp-gui-test clean install -Duitesturl=http://localhost:8080/hlsp -Dworkingcopydir=. -Dtest=GeckoDriverTest'
