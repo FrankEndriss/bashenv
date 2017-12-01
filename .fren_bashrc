@@ -49,10 +49,36 @@ function f_func () {
 }
 a f=f_func
 
+#used in fs_func() and gs_func()
+export FS_FUNC_FILTER="*target*"
+
+# FS_FUNC_FILTER is not set then call f_func()
+#else search for $1 but not in directories matching $FS_FUNC_FILTER
+function fs_func () {
+    if [ -z "$FS_FUNC_FILTER" ] 
+    then
+        f_func
+    else
+    	[ -z "$1" ] || find . -name "$FS_FUNC_FILTER" -prune -o -name "*$1*" 
+    fi
+}
+a fs=fs_func
+
 function g_func () {
     [ -z "$1" ] || find . -type f -print0 | xargs -0 grep "$1"
 }
 a g=g_func
+
+function gs_func () {
+    if [ -z "$FS_FUNC_FILTER" ] 
+    then
+        g_func
+    else
+    	[ -z "$1" ] || find . -name "$FS_FUNC_FILTER" -prune -o -type f -print0 | xargs -0 grep "$1"
+#   	[ -z "$1" ] || find . -name "$FS_FUNC_FILTER" -prune -o -type f -print
+    fi
+}
+a gs=gs_func
 
 a r='fc -e -'
 a c='mvn -DskipTests clean install'
